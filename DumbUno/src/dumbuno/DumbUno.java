@@ -26,41 +26,73 @@ public class DumbUno
         current = current.getNext();
         current.setNext(new IntNode(0,null));
         current = current.getNext();
+        
         current.setNext(startPlayer);
         
         //Deal every player a hand
         current = startPlayer;
         
-        while (current.getData() == 0)
-        {
-            current.setData(rng.nextInt(minHandSize, maxHandSize));
+       do 
+       {
+            current.setData(rng.nextInt(minHandSize, maxHandSize+1));
             current = current.getNext();
-        }
+        } 
+       while (current != startPlayer);
         
        
+        printGame(startPlayer);
         
         //Play the game
         current = startPlayer;
         
-        while (current.getData() > 1)
-        {
-            //Student implementation
-            
-            current.setData(current.getData()-1);
-            current = current.getNext();  
-            printGame(current);
-        }
+    int turnCount = 0;
         
+     while (true) {
+    // Decrement the current player's score
+    current.setData(current.getData() - 1);
+
+    // Move to the next player
+    current = current.getNext();
+    
+    turnCount++;  // Increment the turn counter
+    
+
+    // Check if the current player has won (reached zero)
+    if (current.getData() == 0) 
+    {
         System.out.println("I win!");
+        break;  // Exit the loop i
+    }
+
+    
+    
+    if (turnCount % 5 == 0) {
+        printGame(startPlayer);
+    }
+    }
+
+        
         
     }
     
     private static void printGame(IntNode startPlayer)
     {
         //Student implementation
+        IntNode current  = startPlayer;
         
-        System.out.println(" Current Cards: " + startPlayer.getData());
+        int playerNumber = 1;  // Start with Player 1
+
+        System.out.print("Current Cards: ");
+        do {
+            System.out.print("Player " + playerNumber + ": " + current.getData() + "  ");
+            current = current.getNext();
+            playerNumber++;
+        } while (current != startPlayer);
         
+        System.out.println();  // Move to the next line after printing all players
     }
+        
+        
+    
     
 }
